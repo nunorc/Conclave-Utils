@@ -1,0 +1,42 @@
+    <owl:ObjectProperty rdf:about="#hasFunctionCall">
+        <rdf:type rdf:resource="&owl;TransitiveProperty"/>
+        <rdfs:range rdf:resource="#Function"/>
+        <rdfs:domain rdf:resource="#ProgramElement"/>
+    </owl:ObjectProperty>
+
+    <owl:ObjectProperty rdf:about="#hasIdentifier">
+        <rdf:type rdf:resource="&owl;FunctionalProperty"/>
+        <rdfs:range rdf:resource="#Identifier"/>
+        <rdfs:domain rdf:resource="#Function"/>
+        <rdfs:domain rdf:resource="#TypeDefinition"/>
+        <rdfs:domain rdf:resource="#Variable"/>
+    </owl:ObjectProperty>
+
+    <owl:ObjectProperty rdf:about="#hasType">
+        <rdfs:domain rdf:resource="#ProgramElement"/>
+        <rdfs:range rdf:resource="#TypeDefinition"/>
+    </owl:ObjectProperty>
+
+    <owl:ObjectProperty rdf:about="#inFile">
+        <rdf:type rdf:resource="&owl;TransitiveProperty"/>
+        <rdfs:range rdf:resource="#File"/>
+        <rdfs:domain rdf:resource="#ProgramElement"/>
+    </owl:ObjectProperty>
+
+    <owl:ObjectProperty rdf:about="#inFunction">
+        <rdfs:range rdf:resource="#Function"/>
+        <rdfs:domain rdf:resource="#LocalVariable"/>
+        <rdfs:domain rdf:resource="#Parameter"/>
+    </owl:ObjectProperty>
+
+    <owl:ObjectProperty rdf:about="#inMethod">
+        <rdfs:range rdf:resource="#Method"/>
+        <rdfs:domain rdf:resource="#LocalVariable"/>
+        <rdfs:domain rdf:resource="#Parameter"/>
+    </owl:ObjectProperty>
+
+    <owl:ObjectProperty rdf:about="#inClass">
+        <rdfs:range rdf:resource="#Class"/>
+        <rdfs:domain rdf:resource="#ClassVariable"/>
+        <rdfs:domain rdf:resource="#Method"/>
+    </owl:ObjectProperty>

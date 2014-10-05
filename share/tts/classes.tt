@@ -1,0 +1,95 @@
+    <owl:Class rdf:about="#Comment">
+        <rdfs:subClassOf rdf:resource="#ProgramElement"/>
+    </owl:Class>
+
+    <owl:Class rdf:about="#Conditional">
+        <rdfs:subClassOf rdf:resource="#Statement"/>
+    </owl:Class>
+
+    <owl:Class rdf:about="#CustomStruct">
+        <rdfs:subClassOf rdf:resource="#TypeDefinition"/>
+    </owl:Class>
+
+    <owl:Class rdf:about="#Expression">
+        <rdfs:subClassOf rdf:resource="#ProgramElement"/>
+    </owl:Class>
+
+    <owl:Class rdf:about="#File">
+        <rdfs:subClassOf rdf:resource="&owl;Thing"/>
+    </owl:Class>
+
+    <owl:Class rdf:about="#Macro">
+        <rdfs:subClassOf rdf:resource="#ProgramElement"/>
+    </owl:Class>
+
+    <owl:Class rdf:about="#TypeDecl">
+        <rdfs:subClassOf rdf:resource="#ProgramElement"/>
+    </owl:Class>
+
+    <owl:Class rdf:about="#Function">
+        <rdfs:subClassOf rdf:resource="#ProgramElement"/>
+    </owl:Class>
+
+    <owl:Class rdf:about="#Method">
+        <rdfs:subClassOf rdf:resource="#ProgramElement"/>
+    </owl:Class>
+
+    <owl:Class rdf:about="#Class">
+        <rdfs:subClassOf rdf:resource="#ProgramElement"/>
+    </owl:Class>
+
+    <owl:Class rdf:about="#Constructor">
+        <rdfs:subClassOf rdf:resource="#ProgramElement"/>
+    </owl:Class>
+
+    <owl:Class rdf:about="#GlobalVariable">
+        <rdfs:subClassOf rdf:resource="#Variable"/>
+    </owl:Class>
+
+    <owl:Class rdf:about="#ClassVariable">
+        <rdfs:subClassOf rdf:resource="#Variable"/>
+    </owl:Class>
+
+    <owl:Class rdf:about="#Identifier">
+        <rdfs:subClassOf rdf:resource="#ProgramElement"/>
+    </owl:Class>
+
+    <owl:Class rdf:about="#LocalVariable">
+        <rdfs:subClassOf rdf:resource="#Variable"/>
+    </owl:Class>
+
+    <owl:Class rdf:about="#Loop">
+        <rdfs:subClassOf rdf:resource="#Statement"/>
+    </owl:Class>
+
+    <owl:Class rdf:about="#NumberType">
+        <rdfs:subClassOf rdf:resource="#TypeDefinition"/>
+    </owl:Class>
+
+    <owl:Class rdf:about="#Parameter">
+        <rdfs:subClassOf rdf:resource="#Variable"/>
+    </owl:Class>
+
+    <owl:Class rdf:about="#PointerType">
+        <rdfs:subClassOf rdf:resource="#TypeDefinition"/>
+    </owl:Class>
+
+    <owl:Class rdf:about="#ProgramElement">
+        <rdfs:subClassOf rdf:resource="&owl;Thing"/>
+    </owl:Class>
+
+    <owl:Class rdf:about="#Statement">
+        <rdfs:subClassOf rdf:resource="#ProgramElement"/>
+    </owl:Class>
+
+    <owl:Class rdf:about="#StringType">
+        <rdfs:subClassOf rdf:resource="#TypeDefinition"/>
+    </owl:Class>
+
+    <owl:Class rdf:about="#TypeDefinition">
+        <rdfs:subClassOf rdf:resource="#ProgramElement"/>
+    </owl:Class>
+
+    <owl:Class rdf:about="#Variable">
+        <rdfs:subClassOf rdf:resource="#ProgramElement"/>
+    </owl:Class>

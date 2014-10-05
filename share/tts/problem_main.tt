@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE rdf:RDF [
+    <!ENTITY owl "http://www.w3.org/2002/07/owl#" >
+    <!ENTITY xsd "http://www.w3.org/2001/XMLSchema#" >
+    <!ENTITY problem "http://conclave.di.uminho.pt/owl/[% pkgid %]/problem#" >
+    <!ENTITY rdfs "http://www.w3.org/2000/01/rdf-schema#" >
+    <!ENTITY rdf "http://www.w3.org/1999/02/22-rdf-syntax-ns#" >
+]>
+
+<rdf:RDF xmlns="http://conclave.di.uminho.pt/owl/[% pkgid %]/problem#"
+     xml:base="http://conclave.di.uminho.pt/owl/[% pkgid %]/problem"
+     xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+     xmlns:problem="http://conclave.di.uminho.pt/owl/[% pkgid %]/problem#"
+     xmlns:owl="http://www.w3.org/2002/07/owl#"
+     xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+    <owl:Ontology rdf:about="http://conclave.di.uminho.pt/owl/[% pkgid %]/problem"/>
+
+    <owl:Class rdf:about="&problem;Concept">
+        <rdfs:subClassOf rdf:resource="&owl;Thing"/>
+    </owl:Class>
+
+</rdf:RDF>

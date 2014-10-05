@@ -1,0 +1,19 @@
+#!/usr/bin/perl -s
+# PODNAME: conc-otk-delete
+# ABSTRACT: delete an ontology
+
+use Conclave::OTK;
+use Getopt::Long;
+
+my %opts;
+GetOptions(\%opts,'backend=s','filename=s','query=s','update=s','restws=s');
+
+my $base_uri = shift;
+unless ($base_uri) {
+  print "Usage: conc-otk-delete [options] <base_uri>\n" and exit;
+}
+
+my $onto = Conclave::OTK->new($base_uri, %opts);
+$onto->delete;
+print STDERR "Delete: $onto->{graph}\n";
+
