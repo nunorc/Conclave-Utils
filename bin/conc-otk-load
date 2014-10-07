@@ -1,0 +1,47 @@
+#!/usr/bin/perl -s
+
+use warnings;
+use strict;
+
+use Conclave::OTK;
+use Conclave::Utils::PC;
+
+my $base_uri = shift;
+my $op = shift;
+unless ($base_uri and $op) {
+  print "Usage:\n",
+        "  \$ conc-otk-load <base_uri> clang <datafile>\n",
+          "  \$ conc-otk-load <base_uri> idterms <datafile>\n",
+            "  \$ conc-otk-load <base_uri> antlr <datafile>\n";
+  exit;
+}
+
+if ($op eq 'clang') {
+  my $datafile = shift;
+  unless ($datafile) {
+    print "Usage: conc-otk-load <base_uri> clang <datafile>\n";
+    exit;
+  }
+  my $onto = Conclave::OTK->new($base_uri);
+  Conclave::Utils::PC::program_load_clang($onto, $datafile);
+}
+
+if ($op eq 'idterms') {
+  my $datafile = shift;
+  unless ($datafile) {
+    print "Usage: conc-otk-load <base_uri> idterms <datafile>\n";
+    exit;
+  }
+  my $onto = Conclave::OTK->new($base_uri);
+  Conclave::Utils::PC::program_load_idterms($onto, $datafile);
+}
+
+if ($op eq 'antlr') {
+  my $datafile = shift;
+  unless ($datafile) {
+    print "Usage: conc-otk-load <base_uri> antlr <datafile>\n";
+    exit;
+  }
+  my $onto = Conclave::OTK->new($base_uri);
+  Conclave::Utils::PC::program_load_antlr($onto, $datafile);
+}
