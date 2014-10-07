@@ -10,13 +10,10 @@ use File::Slurp qw/write_file read_file/;
 
 sub program_load_clang {
   my ($onto, $datafile) = @_;
-
-  my $r = `wc -l $datafile`;
-  my $total = -1;
+  my $total = _count_lines($datafile);
   my $c = 0;
-  $total = $1 if ($r =~ m/(^\d+)\s*/);
 
-  open my $fh, '<', $datafile or die "can't open datafile\n";
+  open my $fh , '<', $datafile or die "Can't open $datafile: $!";
   my %files;
   while (my $line = <$fh>) {
     chomp $line;
@@ -68,13 +65,10 @@ sub program_load_clang {
 
 sub program_load_antlr {
   my ($onto, $datafile) = @_;
-
-  my $r = `wc -l $datafile`;  # FIXME
-  my $total = -1;
+  my $total = _count_lines($datafile);
   my $c = 0;
-  $total = $1 if ($r =~ m/(^\d+)\s*/);
 
-  open my $fh, '<', $datafile or die "can't open datafile\n";
+  open my $fh , '<', $datafile or die "Can't open $datafile: $!";
   my %files;
   while (my $line = <$fh>) {
     chomp $line;
@@ -170,6 +164,17 @@ sub program_load_idterms {
     $onto->add_data_prop("I::$uid", 'hasTerms', $data->{$uid}->{terms}, 'string');
     $c++;
   }
+}
+
+sub _count_lines {
+  my ($datafile) = @_;
+
+  my $count = 0;
+  open my $fh , '<', $datafile or die "Can't open $datafile: $!";
+  while( <$fh> ) { $count++ unless (m/^#/); }
+  close $fh;
+
+  return $count;
 }
 
 1;
