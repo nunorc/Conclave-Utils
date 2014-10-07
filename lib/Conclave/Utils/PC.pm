@@ -3,129 +3,13 @@ use warnings;
 package Conclave::Utils::PC;
 # ABSTRACT: OTK program comprehension specific tasks
 
-use Text::WordGrams;
-use Lingua::StopWords qw( getStopWords );
-use Lingua::Jspell;
-use DBI;
-use DBD::SQLite;
+use Conclave::OTK;
 use File::Basename;
 use JSON;
 use File::Slurp qw/write_file read_file/;
 
-sub problem_load_terminology {
-  my ($onto, $corpus, $pkgid) = @_;
-
-  # compute word unigrams
-  my $data = word_grams_from_files({size=>1}, $corpus);
-  my $total = 0;
-  $total += $data->{$_} foreach (keys %$data);
-
-  my $stopwords = getStopWords('en');
-  foreach (keys %$data) {
-    # remove stop words
-    delete $data->{$_} and next if ($stopwords->{$_} or $stopwords->{lc $_});
-
-    # remove non words
-    delete $data->{$_} and next unless $_ =~ m/^[\w\d\-]+$/;
-    delete $data->{$_} and next if $_ =~ m/^[\-\_]+$/;
-
-    # remove length < 3
-    delete $data->{$_} and next if length($_) < 3;
-
-    # remove if freq <= 2
-    delete $data->{$_} and next if $data->{$_} <= 2;
-  }
-
-  my $final = {};
-  my $lemmas = _build_lemmas($data);
-  foreach (keys %$data) {
-    my $lemma = $lemmas->{$_} or next;
-    $final->{$lemma}->{$_} = $data->{$_};
-  }
-
-  foreach my $k (keys %$final) {
-    my $sum = 0;
-    foreach (keys %{$final->{$k}}) {
-      $sum += $final->{$k}->{$_};
-    }
-    if ($sum/$total<0.005) {
-      delete $final->{$k};
-    }
-  }
-
-  # update ontolgoy
-  if ($onto) {
-    foreach my $c (keys %$final) {
-      $onto->add_class($c, 'Concept');
-
-      my @terms = keys %{ $final->{$c} };
-      $onto->add_instance($_, $c) foreach @terms;
-    }
-  }
-  # else return hash
-  else {
-    return $final;
-  }
-}
-
-# build lemmas using jspell
-sub _build_lemmas {
-  my $h = shift;
-  my $lemmas = {};
-
-  my $dict = Lingua::Jspell->new("en"); # XXX
-  foreach (keys %$h) {
-    my @rads = $dict->rad($_);
-    $lemmas->{$_} = shift @rads;
-  }
-
-  return $lemmas;
-}
-
-sub program_load_idtable {
-  my ($onto, $dbfile, $pkgid) = @_;
-
-  # collect idtable from dbfile
-  my $ids;
-  my $dbh = DBI->connect("dbi:SQLite:dbname=$dbfile");
-  my $sth = $dbh->prepare("SELECT * FROM idtable WHERE pkgid=?");
-  $sth->execute($pkgid);
-  while (my $row = $sth->fetchrow_hashref()) {
-    $ids->{$row->{iduid}} = $row;
-  }
-
-  my %files;
-  foreach (keys %$ids) {
-    my $elem = lc $ids->{$_}->{idtype};
-    my $idline = $ids->{$_}->{idline};
-    my $idfile = basename $ids->{$_}->{idfile};
-    my $idpath = dirname $ids->{$_}->{idfile};
-    $files{$idfile} = $ids->{$_}->{idfile};
-    my $idname = $ids->{$_}->{idname};
-
-    # add procedures to ontology
-    if ($elem eq 'proc') {
-      $onto->add_instance($_, 'Identifier');
-      $onto->add_data_prop($_, 'hasIdString', $idname);
-      $onto->add_instance("$idfile:$idname", 'Function');
-      $onto->add_obj_prop("$idfile:$idname", 'hasIdentifier', $_);
-    }
-    # add variables to ontology
-    else {
-      $onto->add_instance($_, 'Variable');
-    }
-  }
-
-  # add files to ontology
-  foreach (keys %files) {
-    $onto->add_instance($_, 'File');
-    $onto->add_data_prop($_, 'hasFullPath', $files{$_});
-    $onto->add_data_prop($_, 'hasFileName', basename $files{$_});
-  } 
-}
-
 sub program_load_clang {
-  my ($onto, $datafile, $pkgid) = @_;
+  my ($onto, $datafile) = @_;
 
   my $r = `wc -l $datafile`;
   my $total = -1;
@@ -183,9 +67,9 @@ sub program_load_clang {
 }
 
 sub program_load_antlr {
-  my ($onto, $datafile, $pkgid) = @_;
+  my ($onto, $datafile) = @_;
 
-  my $r = `wc -l $datafile`;
+  my $r = `wc -l $datafile`;  # FIXME
   my $total = -1;
   my $c = 0;
   $total = $1 if ($r =~ m/(^\d+)\s*/);
@@ -273,7 +157,7 @@ EOQ
 }
 
 sub program_load_idterms {
-  my ($onto, $datafile, $pkgid) = @_;
+  my ($onto, $datafile) = @_;
 
   my $json = read_file($datafile, {binmode=>':utf8'});
   my $data = decode_json $json;

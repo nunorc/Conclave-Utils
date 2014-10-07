@@ -15,12 +15,13 @@ GetOptions(\%opts,'backend=s','filename=s','query=s','update=s','restws=s');
 my $base_uri = shift;
 my $base = shift;
 unless ($base_uri) {
-  print "Usage: conc-otk-init [options] <base_uri> [base_ontology}\n" and exit;
+  print "Usage: conc-otk-init [options] <base_uri> [base_ontology]\n" and exit;
 }
 
-my $rdfxml = conc_base_ontologies($base);
+my $rdfxml = conc_base_ontologies($base, $base_uri);
 
 my $onto = Conclave::OTK->new($base_uri, %opts);
 
 $onto->init($rdfxml);
 print STDERR "Initialized: $onto->{graph}\n";
+
