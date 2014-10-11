@@ -124,32 +124,6 @@ sub program_load_antlr {
   } 
 }
 
-sub get_id_type {
-  my ($o, $id) = @_;
-  $id = "<$id>" unless $id =~ m/^</;
-
-  my $sparql = <<"EOQ";
-PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
-PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
-PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
-PREFIX owl: <http://www.w3.org/2002/07/owl#>
-
-SELECT ?y WHERE {
-  $id rdf:type ?y
-}
-EOQ
-  my $r = $o->_query($sparql);
-
-  my $type;
-  foreach (split /\n/, $r) {
-    if ($_ =~ m/<.*?#(.*?)>/) {
-      $type = $1 unless $1 =~ m/^(Identifier|NamedIndividual)$/;
-    }
-  }
-
-  return $type;
-}
-
 sub program_load_idterms {
   my ($onto, $datafile) = @_;
 
