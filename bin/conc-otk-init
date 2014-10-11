@@ -18,7 +18,7 @@ unless ($base_uri) {
   print "Usage: conc-otk-init [options] <base_uri> [base_ontology]\n" and exit;
 }
 
-my $rdfxml = conc_base_ontologies($base, $base_uri);
+my $rdfxml = conc_base_ontologies($base_uri, $base);
 
 my $onto = Conclave::OTK->new($base_uri, %opts);
 

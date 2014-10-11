@@ -1,4 +1,6 @@
 #!/usr/bin/perl -s
+# PODNAME: conc-otk-load
+# ABSTRACT: load data to ontology
 
 use warnings;
 use strict;
