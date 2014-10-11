@@ -9,7 +9,7 @@ use JSON;
 use File::Slurp qw/write_file read_file/;
 
 sub program_load_clang {
-  my ($onto, $datafile) = @_;
+  my ($onto, $datafile, %opts) = @_;
   my $total = _count_lines($datafile);
   my $c = 0;
 
@@ -26,7 +26,7 @@ sub program_load_clang {
     next unless ($class and $uid and $idname and @list);
 
     $c++;
-    print STDERR "[$c/$total] $uid\n";
+    print STDERR "[$c/$total] $uid\n" unless ($opts{silent});
 
     if ($class =~ m/^(Function|GlobalVariable|Macro|TypeDecl|LocalVariable|Parameter)$/) {
 
@@ -64,7 +64,7 @@ sub program_load_clang {
 }
 
 sub program_load_antlr {
-  my ($onto, $datafile) = @_;
+  my ($onto, $datafile, %opts) = @_;
   my $total = _count_lines($datafile);
   my $c = 0;
 
@@ -81,7 +81,7 @@ sub program_load_antlr {
     next unless ($class and $uid and $idname and @list);
 
     $c++;
-    print STDERR "[$c/$total] $uid\n";
+    print STDERR "[$c/$total] $uid\n" unless ($opts{silent});
 
     if ($class =~ m/^(Class|Method|Constructor|ClassVariable|LocalVariable|Parameter)$/) {
 
