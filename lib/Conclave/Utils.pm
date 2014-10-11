@@ -7,12 +7,15 @@ require Exporter;
 our @ISA = qw(Exporter);
 our @EXPORT = qw/conc_base_ontologies/;
 
+use Conclave::OTK;
+
 use Template;
 use File::ShareDir ':ALL';
 
 sub conc_base_ontologies {
-  my ($onto, $base_uri) = @_;
-  return unless ($onto and $base_uri);
+  my ($base_uri, $onto) = @_;
+  return unless ($base_uri);
+  $onto = 'empty' unless $onto;
 
   my $tts_dir;
   if (-e './share/tts') {
@@ -21,6 +24,7 @@ sub conc_base_ontologies {
   else {
     $tts_dir = dist_dir('Conclave-Utils') . '/tts/';
   }
+
   my $config = {
       INCLUDE_PATH => [ $tts_dir, 'share/tts/' ],
     };
